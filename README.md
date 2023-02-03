@@ -1,27 +1,44 @@
-# NgTreeShaking
+# Ng Tree Shaking Issue
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
+This repo contains three branches that illustrate a Tree Shaking issue introduced in Angular v15.
 
-## Development server
+The three branches are:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- `angular-v14-es2022`
+- `angular-v15-es2022`
+- `angular-v15-es2020`
 
-## Code scaffolding
+## The Problem
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+With Angular V15, when`"target": "es2022` is set in `tsconfig.json`, `UnusedService` a service that is not used in the application, is not tree shaken from the bundle.
 
-## Build
+This can be reproduced by doing the following"
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Checkout `angular-v15-es2022`
+2. Run `npm install`
+3. Run `npm run build`
+4. Run `npm run check-tree-shaking`
 
-## Running unit tests
+You'll see a line output stating that `grep` managed to find the `UnusedService` in the bundle.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### This is a regression
 
-## Running end-to-end tests
+To prove this is a regression, you can do the following:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Checkout `angular-v14-es2022`
+2. Run `npm install`
+3. Run `npm run build`
+4. Run `npm run check-tree-shaking`
 
-## Further help
+You'll not see a line output stating that `grep` managed to find the `UnusedService` in the bundle.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Futhermore
+
+If you set the `"target": "es2020` in `tsconfig.json` with Angular v15, the service is tree shaken correctly.
+
+1. Checkout `angular-v15-es2020`
+2. Run `npm install`
+3. Run `npm run build`
+4. Run `npm run check-tree-shaking`
+
+You'll not see a line output stating that `grep` managed to find the `UnusedService` in the bundle.
