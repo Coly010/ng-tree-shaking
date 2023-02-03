@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 
+import * as api from './services';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -10,7 +12,10 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [{
+    provide: api.BASE_PATH,
+    useFactory: () => 'token'
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

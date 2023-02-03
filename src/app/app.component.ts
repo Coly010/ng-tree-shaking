@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UsedService} from "./services";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ng-tree-shaking';
+
+  constructor(private usedService: UsedService) {
+  }
 }

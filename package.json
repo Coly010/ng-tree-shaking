@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "prebuild": "rm -rf .angular dist/",
+    "build": "ng build --configuration=development",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "check-tree-shaking": "cat dist/ng-tree-shaking/main.js | grep -q -i \"console.log(\\\"Unused Service\\\")\" && echo \"Found Unused Service in Build Output \""
   },
   "private": true,
   "dependencies": {
